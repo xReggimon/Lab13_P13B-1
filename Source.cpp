@@ -4,6 +4,7 @@
 using namespace std;
 
 bool isLeapYear(int year);
+int daysInMonth(int month, int year);
 
 
 int main() {
@@ -39,5 +40,20 @@ int main() {
 //This function determines whether a given year is a leap year under the Gregorian calendar
 bool isLeapYear(int year) {
 	return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-	//
+}
+
+//This function determines the number of days in a specified month. 
+
+int daysInMonth(int month, int year) {
+	switch (month) {
+	case 2:
+		return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28;
+	case 4:
+	case 6:
+	case 9:
+	case 11:
+		return 30;
+	default: 
+		return 31;
+	}
 }
