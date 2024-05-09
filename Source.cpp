@@ -38,7 +38,7 @@ int main() {
 		}
 
 		istringstream iss(userInput);
-		if (!(iss >> inputMonth >> inputDay >>  inputYear)) {
+		if (!(iss >> inputMonth >>  inputYear || inputMonth < 1 || inputMonth > 12 || inputYear < 1582)) {
 			cout << "Invalid input." << endl;
 			continue;
 		}
@@ -51,10 +51,17 @@ int main() {
 			cout << inputYear << " is not a leap year." << endl;
 		}
 */
-	int dow = dayOfWeek(inputMonth, inputDay, inputYear);
+	int firstDay = dayOfWeek(inputMonth, 1, inputYear);
 
-	cout << dayNames[dow] << "," << months[inputMonth - 1] << " " << inputDay << ", " << inputYear << endl;
+	string adjustedCalendar[6];
+	for (int i = 0; i < 6; i++) {
+		adjustedCalendar[i] = calendar[i].substr(firstDay * 3);
+	}
 
+	cout << "   Su   M   Tu   W   Th   F   Sa" << endl;
+	for (const auto& week : adjustedCalendar) {
+		cout << week << endl;
+	}
 	}
 	return 0;	
 }
