@@ -7,13 +7,17 @@ using namespace std;
 
 bool isLeapYear(int year);
 int daysInMonth(int month, int year);
+int dayOfWeek(int month, int day, int year);
 
 
 int main() {
 	string userInput;
 	int inputYear;
 	int inputMonth;
+	int inputDay;
+
 	vector<string> months = { "January", "February", "March", "April", "May", "June," "July", "August", "September", "October", "November", "December" };
+	vector<string> dayNames = { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
 
 
 	while (true) {
@@ -25,18 +29,23 @@ int main() {
 		}
 
 		istringstream iss(userInput);
-		if (!(iss >> inputMonth >> inputYear)) {
+		if (!(iss >> inputMonth >> inputDay >>  inputYear)) {
 			cout << "Invalid input." << endl;
 			continue;
 		}
 
-		if (inputMonth < 1 || inputMonth > 12 || inputYear < 1582) {
+/*		if (inputMonth < 1 || inputMonth > 12 || inputYear < 1582) {
 			cout << "Invalid input. Months need to be between 1-12 and the year greater than at least 1582." << endl;
 		}
 		else {
 			cout << months[inputMonth-1] << " " << inputYear << " has " << daysInMonth(inputMonth, inputYear) << " days." << endl;
 			cout << inputYear << " is not a leap year." << endl;
 		}
+*/
+	int dow = dayOfWeek(inputMonth, inputDay, inputYear);
+
+	cout << dayNames[dow] << "," << months[inputMonth - 1] << " " << inputDay << ", " << inputYear << endl;
+
 	}
 	return 0;	
 }
