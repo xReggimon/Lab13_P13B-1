@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -10,31 +12,33 @@ int daysInMonth(int month, int year);
 int main() {
 	string userInput;
 	int inputYear;
+	int inputMonth;
+	vector<string> months = { "January", "February", "March", "April", "May", "June," "July", "August", "September", "October", "November", "December" };
+
 
 	while (true) {
-		cout << "Enter a year or Q to quit: ";
-		cin >> userInput;
+		cout << "Enter a month and year (MM YYYY) or Q to quit: ";
+		getline(cin,userInput);
 
 		if (userInput == "Q" || userInput == "q") {
 			break;
 		}
 
-		try {
-			inputYear = stoi(userInput);
-
-			if (isLeapYear(inputYear)) {
-				cout << inputYear << " is a leap year." << endl;
-			}
-			else {
-				cout << inputYear << " is not a leap year." << endl;
-			}
-		}
-		catch (const invalid_argument& e) {
+		istringstream iss(userInput);
+		if (!(iss >> inputMonth >> inputYear)) {
 			cout << "Invalid input." << endl;
+			continue;
+		}
+
+		if (inputMonth < 1 || inputMonth > 12 || inputYear < 1582) {
+			cout << "Invalid input. Months need to be between 1-12 and the year greater than at least 1582." << endl;
+		}
+		else {
+			cout << months[inputMonth-1] << " " << inputYear << " has " << daysInMonth(inputMonth, inputYear) << " days." << endl;
+			cout << inputYear << " is not a leap year." << endl;
 		}
 	}
-	return 0;
-	
+	return 0;	
 }
 
 //This function determines whether a given year is a leap year under the Gregorian calendar
@@ -47,7 +51,7 @@ bool isLeapYear(int year) {
 int daysInMonth(int month, int year) {
 	switch (month) {
 	case 2:
-		return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28;
+		return isLeapYear(year) ? 29 : 28;
 	case 4:
 	case 6:
 	case 9:
